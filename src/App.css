@@ -1,3 +1,4 @@
+/* General App Styling */
 .App {
   text-align: center;
 }
@@ -34,5 +35,81 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* Shine Effect for the Text */
+.shine-text {
+  background: linear-gradient(90deg, #f0f0f0, #c1c1c1, #f0f0f0);
+  background-size: 200% 200%;
+  display: inline-block;
+  animation: shine 3s linear infinite;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+@keyframes shine {
+  0% {
+    background-position: 200% center;
+  }
+  100% {
+    background-position: -200% center;
+  }
+}
+
+/* Parallax Effect */
+.parallax {
+  overflow: hidden;
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.scroller {
+  display: flex;
+  white-space: nowrap;
+  font-size: 2rem; /* Adjust the font size to your preference */
+  position: relative;
+}
+
+/* Scroll Reveal Effect */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+.scroll-reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Custom styling for gradient and header effects */
+header {
+  backdrop-filter: blur(100px); /* Adjusts the amount of blur for the backdrop */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@media only screen and (max-width: 600px) {
+  .text-6xl {
+    font-size: 2.5rem; /* Adjust heading size on smaller screens */
+  }
+  .text-xl {
+    font-size: 1rem; /* Adjust subheading size on smaller screens */
+  }
+  .h-screen {
+    height: auto; /* Make sections auto height on smaller screens */
+  }
+  .px-4 {
+    padding-left: 1rem;
+    padding-right: 1rem; /* Smaller padding for mobile devices */
   }
 }
