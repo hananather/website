@@ -1,6 +1,7 @@
 // src/App.js
 import React from 'react';
 import { motion } from 'framer-motion';
+import { ReactTyped } from 'react-typed';
 import Header from './components/Header';
 import FloatingIcons from './components/FloatingIcons';
 import DocumentLink from './components/DocumentLink';
@@ -17,8 +18,8 @@ const AnimatedText = ({ text, className, letterByLetter = false, delay = 0 }) =>
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: letterByLetter ? 0.1 : 0.3, // Faster stagger for letter-by-letter
-        delayChildren: delay, // Delay the start of the animation
+        staggerChildren: letterByLetter ? 0.1 : 0.08,
+        delayChildren: delay,
       },
     },
   };
@@ -40,9 +41,7 @@ const AnimatedText = ({ text, className, letterByLetter = false, delay = 0 }) =>
     },
   };
 
-  const content = letterByLetter
-    ? text.split('') // Split by letter for name
-    : text.split(' '); // Split by word for the rest
+  const content = letterByLetter ? text.split('') : text.split(' ');
 
   return (
     <motion.div
@@ -58,7 +57,7 @@ const AnimatedText = ({ text, className, letterByLetter = false, delay = 0 }) =>
           className={letterByLetter ? 'inline-block' : 'inline-block mr-1'}
           variants={child}
         >
-          {char === ' ' ? '\u00A0' : char} {/* Keeps spaces intact */}
+          {char === ' ' ? '\u00A0' : char}
         </motion.span>
       ))}
     </motion.div>
@@ -95,7 +94,7 @@ const App = () => (
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
+          viewport={{ once: true, amount: 0.5 }} // Animate only once when in view
           transition={{ duration: 0.8 }}
           className="text-center mb-10"
         >
@@ -105,14 +104,45 @@ const App = () => (
             className="text-4xl sm:text-5xl md:text-6xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-gray-400 via-gray-300 to-gray-200"
             letterByLetter
           />
-          {/* Word-by-word reveal for the rest of the bio with a delay */}
-          <AnimatedText
-            text="I am a Data Scientist at Statistics Canada specializing in cutting-edge AI research and providing consultancy services to both internal & external federal clients."
-            className="text-sm sm:text-base md:text-xl text-gray-400 mb-8 max-w-2xl mx-auto break-words"
-            delay={1.6} // Adjust the delay to match the duration of the name reveal
-          />
+
+          {/* Typing effect for combined roles with initial reveal animation */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.5 }} // Ensures it animates only once
+            transition={{ delay: 2, duration: 0.8 }} // Delay to match the end of the name reveal
+            className="text-xl sm:text-2xl md:text-3xl font-semibold mt-4 text-gray-300"
+          >
+            I'm a{' '}
+            <ReactTyped
+              strings={[
+                'Data Scientist',
+                'Consultant',
+                'AI Engineer',
+                'Researcher',
+                'Designer',
+                'Writer'
+              ]}
+              typeSpeed={100}
+              loop
+              backSpeed={20}
+              cursorChar="|"
+              showCursor={true}
+            />
+          </motion.div>
         </motion.div>
       </section>
+
+      {/* Text Revealed on Scroll */}
+      <AnimatedSection
+  id="intro"
+  className="pt-5 pb-10 md:pb-20 px-4 md:px-8 lg:px-16 text-center bg-black"
+>
+  <AnimatedText
+    text="I am a Data Scientist at Statistics Canada specializing in cutting-edge AI research and providing consultancy services to both internal & external federal clients."
+    className="text-sm sm:text-base md:text-xl text-gray-400 mb-8 max-w-2xl mx-auto break-words"
+  />
+</AnimatedSection>
 
       {/* Professional Journey Section */}
       <AnimatedSection
